@@ -1,4 +1,5 @@
 {
   "cSpell.enabled": false,
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "dart.lineLength": 120
 }

@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Storybook",
+      "cwd": "flame_hooks_test",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "program": "test/main.dart"
+    },
+  ]
+}

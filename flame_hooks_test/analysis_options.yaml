@@ -3,3 +3,4 @@ analyzer:
   errors:
     use_key_in_widget_constructors: ignore
     non_constant_identifier_names: ignore
+    body_might_complete_normally_nullable: ignore

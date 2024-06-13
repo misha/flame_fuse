@@ -5,15 +5,20 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_hooks/flame_hooks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final SPINNING_SQUARE_STORY = Story(
   name: 'Spinning Square',
-  builder: (context) {
+  builder: (_) => _Story(),
+);
+
+class _Story extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        width: 400,
-        height: 400,
+      child: SizedBox.square(
+        dimension: 400,
         child: GameWidget(
           game: FlameGame() //
             ..add(SpinningSquareComponent() //
@@ -22,8 +27,8 @@ final SPINNING_SQUARE_STORY = Story(
         ),
       ),
     );
-  },
-);
+  }
+}
 
 class SpinningSquareComponent extends RectangleComponent with FlameHooks {
   @override
