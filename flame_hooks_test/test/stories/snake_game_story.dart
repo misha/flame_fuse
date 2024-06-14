@@ -65,12 +65,7 @@ class TurnEffect extends ComponentEffect<SnakeSegmentComponent> {
   TurnEffect({
     required this.direction,
     bool head = false,
-  }) : super(
-          EffectController(
-            duration: 0,
-            startDelay: head ? 0 : SnakeSegmentComponent.speed,
-          ),
-        );
+  }) : super(EffectController(duration: head ? 0 : 0.2));
 
   @override
   void apply(double progress) {
@@ -124,7 +119,7 @@ class SnakeComponent extends Component with HasWorldReference, KeyboardHandler, 
   }
 }
 
-class SnakeSegmentComponent extends RectangleComponent
+class SnakeSegmentComponent extends CircleComponent
     with HasWorldReference, FlameHooks, CollisionCallbacks, FlameCollisionHooks {
   static const speed = 2.0;
 
@@ -136,47 +131,35 @@ class SnakeSegmentComponent extends RectangleComponent
 
   var direction = Direction.south;
 
-  var _active = false;
-
   final _timestamp = DateTime.now();
 
   SnakeSegmentComponent(this.snake, this.parentSegment);
 
   @override
   void hook() {
-    size = Vector2.all(25);
     anchor = Anchor.center;
+    size = Vector2.all(30);
     paint = Paint() //
       ..color = Colors.white;
 
     final parentSegment = this.parentSegment;
 
     if (parentSegment != null) {
-      size = Vector2.all(15);
+      size = Vector2.all(20);
       direction = parentSegment.direction;
-      position = parentSegment.position.clone();
+      position = parentSegment.position.clone() //
+        ..add(direction.vector.inverted().scaled(15));
     }
 
-    add(
-      RectangleHitbox(
-        anchor: Anchor.center,
-        isSolid: true,
-      ),
-    );
-
-    // Wait a second to activate.
-    useFlameTimer(1, () {
-      _active = true;
-    }, repeat: false);
+    add(CircleHitbox());
 
     useFlameUpdate((dt) {
-      if (_active) {
-        position += direction.vector * speed;
-      }
+      position += direction.vector * speed;
     });
 
     useFlameCollision<SnakeSegmentComponent>((other) {
-      if (!_active || !other._active) {
+      if (other == parentSegment || other == childSegment) {
+        // Never process collisions with adjacent segments.
         return;
       }
 
@@ -197,20 +180,16 @@ class SnakeSegmentComponent extends RectangleComponent
 class FoodComponent extends CircleComponent with FlameHooks, HasGameReference<SnakeGame> {
   @override
   void hook() {
-    radius = 8;
     anchor = Anchor.center;
+    radius = 8;
     paint = Paint() //
       ..color = Colors.orange;
 
-    position = Vector2.random() //
-      ..multiply(game.size)
-      ..floor();
+    position = Vector2.all(10) +
+        (Vector2.random() //
+          ..multiply(game.size - Vector2.all(20))
+          ..floor());
 
-    add(
-      CircleHitbox(
-        anchor: Anchor.center,
-        isSolid: true,
-      ),
-    );
+    add(CircleHitbox());
   }
 }
