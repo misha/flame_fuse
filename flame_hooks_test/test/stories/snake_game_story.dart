@@ -95,7 +95,7 @@ class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks,
   final segments = [SnakeSegmentComponent(head: true)];
 
   @override
-  FutureOr<void> hook() {
+  void hook() {
     final head = segments.first;
     add(head);
 
@@ -131,7 +131,7 @@ class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks,
   }
 }
 
-class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
+class SnakeSegmentComponent extends RectangleComponent with FlameHooks, CollisionCallbacks, FlameCollisionHooks {
   static const speed = 2.0;
 
   final bool head;
@@ -143,7 +143,7 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
   });
 
   @override
-  FutureOr<void> hook() {
+  void hook() {
     size = Vector2.all(head ? 25 : 15);
     anchor = Anchor.center;
     paint = Paint() //
@@ -167,6 +167,7 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
 
     useFlameCollision<FoodComponent>((food) {
       food.removeFromParent();
+      print('collided with some food!');
       // add new segment to snake
     });
   }

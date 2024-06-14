@@ -45,12 +45,7 @@ mixin FlameHooks on Component {
     super.update(dt);
 
     for (final fn in _updateFns) {
-      try {
-        _component = this;
-        fn(dt);
-      } finally {
-        _component = null;
-      }
+      fn(dt);
     }
   }
 
@@ -60,31 +55,26 @@ mixin FlameHooks on Component {
     super.onRemove();
 
     for (final fn in _removeFns) {
-      try {
-        _component = this;
-        fn();
-      } finally {
-        _component = null;
-      }
+      fn();
     }
   }
 
   /// Use to set up this component with various Flame hooks.
-  FutureOr<void>? hook();
+  FutureOr<void> hook();
 }
 
 /// Returns the current Flame component.
 C useFlameComponent<C extends FlameHooks>() {
   assert(
     FlameHooks._component != null,
-    '`useFlameComponent` can only be called from the build method of a component with the FlameHooks mixin.',
+    '`useFlameComponent` can only be called from the `hook` method of a component with the `FlameHooks` mixin.',
   );
 
   final component = FlameHooks._component!;
 
   assert(
     component is C,
-    'This usage of `useFlameComponent` expected a component satsifying the type `$C`.',
+    'This usage of `useFlameComponent` expected a component satisfying the type `$C`.',
   );
 
   return component as C;
