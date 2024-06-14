@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_hooks/flame_hooks.dart';
@@ -55,36 +56,74 @@ class SnakeGame extends FlameGame with HasCollisionDetection, HasKeyboardHandler
   @override
   void load() {
     world.add(snake);
+
+    // useFlameCollision<SnakeSegmentComponent>((_, __) {
+    //   // lose
+    // });
+
+    // useFlameCollision<FoodComponent>((food, _) {
+    //   food.removeFromParent();
+    //   // add new segment to snake
+    // });
+  }
+}
+
+class TurnEffect extends ComponentEffect<SnakeSegmentComponent> {
+  final Direction direction;
+
+  TurnEffect({
+    required this.direction,
+    required int index,
+  }) : super(
+          EffectController(
+            duration: 0,
+            startDelay: index * SnakeSegmentComponent.speed,
+          ),
+        );
+
+  @override
+  void apply(double progress) {
+    if (controller.completed) {
+      target.direction = direction;
+    }
   }
 }
 
 class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks, FlameKeyHooks {
+  final segments = [SnakeSegmentComponent(head: true)];
+
   @override
   FutureOr<void> load() {
-    final head = SnakeSegmentComponent();
+    final head = segments.first;
     add(head);
+
+    void turn(Direction direction) {
+      for (final (index, segment) in segments.indexed) {
+        segment.add(TurnEffect(direction: direction, index: index));
+      }
+    }
 
     useFlameKeyEvent({LogicalKeyboardKey.arrowUp}, (_, __) {
       if (head.direction != Direction.south) {
-        head.direction = Direction.north;
+        turn(Direction.north);
       }
     });
 
     useFlameKeyEvent({LogicalKeyboardKey.arrowDown}, (_, __) {
       if (head.direction != Direction.north) {
-        head.direction = Direction.south;
+        turn(Direction.south);
       }
     });
 
     useFlameKeyEvent({LogicalKeyboardKey.arrowLeft}, (_, __) {
       if (head.direction != Direction.east) {
-        head.direction = Direction.west;
+        turn(Direction.west);
       }
     });
 
     useFlameKeyEvent({LogicalKeyboardKey.arrowRight}, (_, __) {
       if (head.direction != Direction.west) {
-        head.direction = Direction.east;
+        turn(Direction.east);
       }
     });
   }
@@ -93,15 +132,17 @@ class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks,
 class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
   static const speed = 2.0;
 
-  SnakeSegmentComponent? tail;
+  final bool head;
 
   var direction = Direction.south;
 
-  SnakeSegmentComponent([this.tail]);
+  SnakeSegmentComponent({
+    this.head = false,
+  });
 
   @override
   FutureOr<void> load() {
-    size = Vector2.all(tail == null ? 25 : 15);
+    size = Vector2.all(head ? 25 : 15);
     anchor = Anchor.center;
     paint = Paint() //
       ..color = Colors.white;
@@ -117,15 +158,6 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
       position += direction.vector * speed;
       // TODO: change direction based on given tail.
     });
-
-    // useFlameCollision<SnakeSegmentComponent>((_, __) {
-    //   // notify the game we lost
-    // });
-
-    // useFlameCollision<FoodComponent>((food, _) {
-    //   food.removeFromParent();
-    //   // notify the head to add a new component
-    // });
   }
 }
 
