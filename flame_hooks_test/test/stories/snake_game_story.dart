@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -57,17 +55,7 @@ class SnakeGame extends FlameGame with HasCollisionDetection, HasKeyboardHandler
   void hook() {
     camera.viewport.position = -size / 2;
     world.add(snake);
-
-    useFlameTimer(3, () {
-      final position = Vector2.random() //
-        ..multiply(size)
-        ..floor();
-
-      final food = FoodComponent() //
-        ..position = position;
-
-      world.add(food);
-    });
+    world.add(FoodComponent());
   }
 }
 
@@ -76,11 +64,11 @@ class TurnEffect extends ComponentEffect<SnakeSegmentComponent> {
 
   TurnEffect({
     required this.direction,
-    required int index,
+    bool head = false,
   }) : super(
           EffectController(
             duration: 0,
-            startDelay: index * SnakeSegmentComponent.speed,
+            startDelay: head ? 0 : SnakeSegmentComponent.speed,
           ),
         );
 
@@ -88,23 +76,27 @@ class TurnEffect extends ComponentEffect<SnakeSegmentComponent> {
   void apply(double progress) {
     if (controller.completed) {
       target.direction = direction;
+      target.childSegment?.add(TurnEffect(direction: direction));
     }
   }
 }
 
-class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks, FlameKeyHooks {
-  final segments = [SnakeSegmentComponent(head: true)];
+class SnakeComponent extends Component with HasWorldReference, KeyboardHandler, FlameHooks, FlameKeyHooks {
+  late final head = SnakeSegmentComponent(this, null);
+
+  late var tail = head;
+
+  void turn(Direction direction) {
+    head.add(TurnEffect(direction: direction, head: true));
+  }
+
+  void grow() {
+    world.add(tail = tail.childSegment = SnakeSegmentComponent(this, tail));
+  }
 
   @override
   void hook() {
-    final head = segments.first;
-    add(head);
-
-    void turn(Direction direction) {
-      for (final (index, segment) in segments.indexed) {
-        segment.add(TurnEffect(direction: direction, index: index));
-      }
-    }
+    world.add(head);
 
     useFlameKeyEvent({LogicalKeyboardKey.arrowUp}, (_, __) {
       if (head.direction != Direction.south) {
@@ -132,23 +124,38 @@ class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks,
   }
 }
 
-class SnakeSegmentComponent extends RectangleComponent with FlameHooks, CollisionCallbacks, FlameCollisionHooks {
+class SnakeSegmentComponent extends RectangleComponent
+    with HasWorldReference, FlameHooks, CollisionCallbacks, FlameCollisionHooks {
   static const speed = 2.0;
 
-  final bool head;
+  final SnakeComponent snake;
+
+  final SnakeSegmentComponent? parentSegment;
+
+  SnakeSegmentComponent? childSegment;
 
   var direction = Direction.south;
 
-  SnakeSegmentComponent({
-    this.head = false,
-  });
+  var _active = false;
+
+  final _timestamp = DateTime.now();
+
+  SnakeSegmentComponent(this.snake, this.parentSegment);
 
   @override
   void hook() {
-    size = Vector2.all(head ? 25 : 15);
+    size = Vector2.all(25);
     anchor = Anchor.center;
     paint = Paint() //
       ..color = Colors.white;
+
+    final parentSegment = this.parentSegment;
+
+    if (parentSegment != null) {
+      size = Vector2.all(15);
+      direction = parentSegment.direction;
+      position = parentSegment.position.clone();
+    }
 
     add(
       RectangleHitbox(
@@ -157,30 +164,47 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks, Collisio
       ),
     );
 
+    // Wait a second to activate.
+    useFlameTimer(1, () {
+      _active = true;
+    }, repeat: false);
+
     useFlameUpdate((dt) {
-      position += direction.vector * speed;
-      // TODO: change direction based on given tail.
+      if (_active) {
+        position += direction.vector * speed;
+      }
     });
 
-    useFlameCollision<SnakeSegmentComponent>((_) {
-      print('collided with another snake segment!');
+    useFlameCollision<SnakeSegmentComponent>((other) {
+      if (!_active || !other._active) {
+        return;
+      }
+
+      if (_timestamp.isBefore(other._timestamp)) {
+        // TODO: lose the game
+        print('collided with another snake segment, lost the game!');
+      }
     });
 
     useFlameCollision<FoodComponent>((food) {
       food.removeFromParent();
-      print('collided with some food!');
-      // add new segment to snake
+      snake.grow();
+      world.add(FoodComponent());
     });
   }
 }
 
-class FoodComponent extends CircleComponent with FlameHooks {
+class FoodComponent extends CircleComponent with FlameHooks, HasGameReference<SnakeGame> {
   @override
-  FutureOr<void>? hook() {
+  void hook() {
     radius = 8;
     anchor = Anchor.center;
     paint = Paint() //
       ..color = Colors.orange;
+
+    position = Vector2.random() //
+      ..multiply(game.size)
+      ..floor();
 
     add(
       CircleHitbox(
