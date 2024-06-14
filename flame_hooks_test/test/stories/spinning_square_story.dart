@@ -32,7 +32,7 @@ class _Story extends HookWidget {
 
 class SpinningSquareComponent extends RectangleComponent with FlameHooks {
   @override
-  FutureOr<void> load() {
+  FutureOr<void> hook() {
     anchor = Anchor.center;
     paint = Paint() //
       ..color = Colors.green;

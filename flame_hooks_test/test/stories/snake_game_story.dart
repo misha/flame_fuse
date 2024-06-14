@@ -54,17 +54,19 @@ class SnakeGame extends FlameGame with HasCollisionDetection, HasKeyboardHandler
   final snake = SnakeComponent();
 
   @override
-  void load() {
+  void hook() {
     world.add(snake);
 
-    // useFlameCollision<SnakeSegmentComponent>((_, __) {
-    //   // lose
-    // });
+    useFlameTimer(3, () {
+      final position = Vector2.random() //
+        ..multiply(size)
+        ..floor();
 
-    // useFlameCollision<FoodComponent>((food, _) {
-    //   food.removeFromParent();
-    //   // add new segment to snake
-    // });
+      final food = FoodComponent() //
+        ..position = position;
+
+      world.add(food);
+    });
   }
 }
 
@@ -93,7 +95,7 @@ class SnakeComponent extends PositionComponent with KeyboardHandler, FlameHooks,
   final segments = [SnakeSegmentComponent(head: true)];
 
   @override
-  FutureOr<void> load() {
+  FutureOr<void> hook() {
     final head = segments.first;
     add(head);
 
@@ -141,7 +143,7 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
   });
 
   @override
-  FutureOr<void> load() {
+  FutureOr<void> hook() {
     size = Vector2.all(head ? 25 : 15);
     anchor = Anchor.center;
     paint = Paint() //
@@ -158,19 +160,21 @@ class SnakeSegmentComponent extends RectangleComponent with FlameHooks {
       position += direction.vector * speed;
       // TODO: change direction based on given tail.
     });
-  }
-}
 
-class FoodGeneratorComponent extends Component with FlameHooks {
-  @override
-  void load() {
-    // Use some timer hooks to periodically emit food in random locations.
+    useFlameCollision<SnakeSegmentComponent>((_) {
+      print('collided with another snake segment!');
+    });
+
+    useFlameCollision<FoodComponent>((food) {
+      food.removeFromParent();
+      // add new segment to snake
+    });
   }
 }
 
 class FoodComponent extends CircleComponent with FlameHooks {
   @override
-  FutureOr<void>? load() {
+  FutureOr<void>? hook() {
     radius = 8;
     anchor = Anchor.center;
     paint = Paint() //
