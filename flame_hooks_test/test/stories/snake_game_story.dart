@@ -55,6 +55,7 @@ class SnakeGame extends FlameGame with HasCollisionDetection, HasKeyboardHandler
 
   @override
   void hook() {
+    camera.viewport.position = -size / 2;
     world.add(snake);
 
     useFlameTimer(3, () {
