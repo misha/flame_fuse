@@ -2,6 +2,8 @@
 
 Fuse is a library for writing [Flame](https://github.com/flame-engine/flame) component behavior in a composable way.
 
+> :warning: This project is not affiliated with Blue Fire or the official Flame project in any way.
+
 ## Installation
 
 ```bash
