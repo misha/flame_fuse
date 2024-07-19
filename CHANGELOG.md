@@ -1,3 +1,3 @@
 ## 1.0.0
 
-* TODO: Describe initial release.
+* Write the original set of fuses and first version of the README as documentation.
