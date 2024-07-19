@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import 'stories/bouncing_balls_story.dart';
 import 'stories/spinning_square_story.dart';
 
 const _SHARED_PREFERENCES_KEY_STORY = '_story';
@@ -28,6 +29,7 @@ class FuseStorybook extends StatelessWidget {
       },
       stories: [
         SPINNING_SQUARE_STORY,
+        BOUNCING_BALLS_STORY,
       ]..sort((a, b) => a.name.compareTo(b.name)),
     );
   }

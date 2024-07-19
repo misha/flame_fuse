@@ -5,37 +5,30 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:fuse/fuse.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 final SPINNING_SQUARE_STORY = Story(
   name: 'Spinning Square',
-  builder: (_) => _Story(),
+  builder: (_) => GameWidget(game: SpinningSquareGame()),
 );
 
-class _Story extends HookWidget {
+class SpinningSquareGame extends FlameGame with Fuse {
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox.square(
-        dimension: 400,
-        child: GameWidget(
-          game: FlameGame() //
-            ..add(SpinningSquareComponent() //
-              ..size = Vector2.all(100)
-              ..position = Vector2.all(200)),
-        ),
-      ),
-    );
+  FutureOr<void> fuse() {
+    final square = SpinningSquare();
+    world.add(square);
+    camera.follow(square);
   }
 }
 
-class SpinningSquareComponent extends RectangleComponent with Fuse {
+class SpinningSquare extends RectangleComponent with Fuse {
   @override
   FutureOr<void> fuse() {
     anchor = Anchor.center;
     paint = Paint() //
       ..color = Colors.green;
+
+    size = Vector2.all(100);
 
     fuseUpdate((dt) {
       angle += (pi / 2) * dt;
