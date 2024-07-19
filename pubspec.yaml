@@ -1,7 +1,7 @@
-name: fuse
+name: flame_fuse
 description: "Functional behavior composition for Flame components."
 version: 1.0.0
-homepage: https://github.com/misha/fuse
+homepage: https://github.com/misha/flame_fuse
 environment:
   sdk: ">=3.4.1 <4.0.0"
   flutter: ">=1.17.0"

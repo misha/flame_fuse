@@ -3,7 +3,7 @@
 /// See [Fuse] for usage details.
 library fuse;
 
-import 'package:fuse/fuses/core.dart';
+import 'package:flame_fuse/fuses/core.dart';
 
 export 'fuses/collisions.dart';
 export 'fuses/core.dart';

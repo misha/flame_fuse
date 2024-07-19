@@ -233,6 +233,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  flame_fuse:
+    dependency: "direct dev"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "1.0.0"
   flutter:
     dependency: "direct dev"
     description: flutter
@@ -296,13 +303,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
-  fuse:
-    dependency: "direct dev"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "1.0.0"
   glob:
     dependency: transitive
     description:

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:fuse/fuse.dart';
+import 'package:flame_fuse/fuse.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 

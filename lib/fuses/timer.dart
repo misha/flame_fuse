@@ -1,5 +1,5 @@
 import 'package:flame/timer.dart';
-import 'package:fuse/fuse.dart';
+import 'package:flame_fuse/fuse.dart';
 
 typedef FuseTimerFn = void Function();
 

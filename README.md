@@ -2,9 +2,11 @@
 
 Fuse is a library for writing [Flame](https://github.com/flame-engine/flame) component behavior in a composable way.
 
-## Naming
+## Installation
 
-The name "Fuse" was selected because this method of functional composition is shared with React and Flutter hooks. With hooks, you `use` functions. With Flame hooks, you `fuse` functions instead.
+```bash
+dart pub add flame_fuse
+```
 
 ## Usage
 
@@ -175,3 +177,9 @@ The main Fuse project is stored in the top-level directory.
 The tests are written in a Storybook located in the `fuse_test` package. Unfortunately, the top-level project is a package-type project and cannot have a platform attached to it. As a result, I have opted to have a separate, application-type project to host the Storybook instead.
 
 If you have any problems or suggestions, please open an issue on GitHub.
+
+## Naming
+
+The name "Fuse" was selected because this method of functional composition is shared with React and Flutter hooks. With hooks, you `use` functions. With Flame hooks, you `fuse` functions instead.
+
+I also like that the verb "to fuse" reminds me of welding together parts in a secure way, similar to what the library tries to do with component behavior.

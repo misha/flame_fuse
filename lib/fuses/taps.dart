@@ -1,6 +1,6 @@
 import 'package:flame/events.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fuse/fuses/core.dart';
+import 'package:flame_fuse/fuses/core.dart';
 
 typedef FuseTapDownFn = void Function(TapDownEvent event);
 typedef FuseTapUpFn = void Function(TapUpEvent event);
