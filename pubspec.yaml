@@ -1,5 +1,5 @@
 name: fuse
-description: "Functional behavior composition for the Flame game engine."
+description: "Functional behavior composition for Flame components."
 version: 1.0.0
 homepage: https://github.com/misha/fuse
 environment:
