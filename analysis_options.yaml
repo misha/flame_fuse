@@ -1,6 +1,7 @@
+include: package:flame_lint/analysis_options.yaml
 analyzer:
   errors:
     lines_longer_than_80_chars: ignore
     non_constant_identifier_names: ignore
+    require_trailing_commas: ignore
     use_key_in_widget_constructors: ignore
-include: package:flame_lint/analysis_options.yaml

@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Storybook",
-      "cwd": "flame_hooks_test",
+      "cwd": "fuse_test",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",

@@ -1,7 +1,7 @@
-name: flame_hooks
-description: "Hook implementation for the Flame game engine."
-version: 0.0.1
-homepage: https://github.com/misha/flame_hooks
+name: fuse
+description: "Functional behavior composition for the Flame game engine."
+version: 1.0.0
+homepage: https://github.com/misha/fuse
 environment:
   sdk: ">=3.4.1 <4.0.0"
   flutter: ">=1.17.0"
