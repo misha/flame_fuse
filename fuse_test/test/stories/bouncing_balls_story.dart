@@ -65,6 +65,15 @@ class Wall extends RectangleComponent with Fuse {
 
 final _RANDOM = Random();
 
+Color randomColor([double opacity = 0]) {
+  return Color.fromRGBO(
+    _RANDOM.nextInt(255),
+    _RANDOM.nextInt(255),
+    _RANDOM.nextInt(255),
+    opacity,
+  );
+}
+
 class Ball extends CircleComponent
     with //
         Fuse,
@@ -76,7 +85,7 @@ class Ball extends CircleComponent
     size = Vector2.all(33);
     add(CircleHitbox(collisionType: CollisionType.active));
 
-    var velocity = Vector2.all(250) //
+    final velocity = Vector2.all(250) //
       ..rotate(2 * pi * _RANDOM.nextDouble());
 
     fuseUpdate((dt) {
@@ -84,16 +93,13 @@ class Ball extends CircleComponent
     });
 
     fuseCollisionStart<Wall>((wall) {
-      velocity = velocity.reflected(wall.normal);
+      velocity.reflect(wall.normal);
     });
 
-    fuseCollisionStart<Ball>((ball) {
-      paint.color = Color.fromRGBO(
-        _RANDOM.nextInt(255),
-        _RANDOM.nextInt(255),
-        _RANDOM.nextInt(255),
-        0.75,
-      );
+    paint.color = randomColor();
+
+    fuseCollisionStart<Ball>((_) {
+      paint.color = randomColor();
     });
   }
 }
