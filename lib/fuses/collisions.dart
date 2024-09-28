@@ -1,7 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flame_fuse/fuse.dart';
+import 'package:flutter/foundation.dart';
 
 typedef FuseCollisionFn<C extends PositionComponent> = //
     void Function(C other);

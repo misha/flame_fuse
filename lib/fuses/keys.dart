@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_fuse/fuses/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flame_fuse/fuses/core.dart';
 
 typedef FuseKeyEventFn = bool? Function(
   KeyEvent event,

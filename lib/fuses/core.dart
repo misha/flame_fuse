@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flame_fuse/fuse.dart';
+import 'package:flutter/foundation.dart';
 
 typedef FuseUpdateFn = dynamic Function(double dt);
 typedef FuseRemoveFn = dynamic Function();

@@ -1,6 +1,6 @@
 import 'package:flame/events.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flame_fuse/fuses/core.dart';
+import 'package:flutter/foundation.dart';
 
 typedef FusePointerMoveFn = dynamic Function(PointerMoveEvent event);
 typedef FusePointerMoveStopFn = dynamic Function(PointerMoveEvent event);
