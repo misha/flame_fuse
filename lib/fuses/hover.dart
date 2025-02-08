@@ -1,6 +1,6 @@
 import 'package:flame/events.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flame_fuse/fuses/core.dart';
+import 'package:flutter/foundation.dart';
 
 typedef FuseHoverEnterFn = dynamic Function();
 typedef FuseHoverExitFn = dynamic Function();
