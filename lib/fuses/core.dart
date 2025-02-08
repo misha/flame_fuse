@@ -64,6 +64,15 @@ mixin Fuse on Component {
     }
   }
 
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+
+    for (final fn in _resizeFns) {
+      fn(size);
+    }
+  }
+
   /// Enables usage of fuse* functions to compose this component's behavior.
   ///
   /// This method is called exactly once during the component's [onLoad] callback.
