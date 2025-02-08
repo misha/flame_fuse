@@ -65,12 +65,12 @@ class Wall extends RectangleComponent with Fuse {
 
 final _RANDOM = Random();
 
-Color randomColor([double opacity = 0]) {
+Color randomColor() {
   return Color.fromRGBO(
     _RANDOM.nextInt(255),
     _RANDOM.nextInt(255),
     _RANDOM.nextInt(255),
-    opacity,
+    0.75,
   );
 }
 
