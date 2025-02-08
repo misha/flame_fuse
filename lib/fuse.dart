@@ -7,6 +7,7 @@ import 'package:flame_fuse/fuses/core.dart';
 
 export 'fuses/collisions.dart';
 export 'fuses/core.dart';
+export 'fuses/game.dart';
 export 'fuses/hover.dart';
 export 'fuses/keys.dart';
 export 'fuses/pointers.dart';

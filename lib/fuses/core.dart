@@ -5,6 +5,8 @@ import 'package:flame/game.dart';
 import 'package:flame_fuse/fuse.dart';
 import 'package:flutter/foundation.dart';
 
+Component? _component;
+
 typedef FuseUpdateFn = dynamic Function(double dt);
 typedef FuseRemoveFn = dynamic Function();
 typedef FuseResizeFn = dynamic Function(Vector2 size);
@@ -39,9 +41,13 @@ mixin Fuse on Component {
   @mustCallSuper
   Future<void> onLoad() async {
     await super.onLoad();
-    await runZoned(fuse, zoneValues: {
-      #component: this,
-    });
+
+    try {
+      _component = this;
+      await fuse();
+    } finally {
+      _component = null;
+    }
   }
 
   @override
@@ -82,7 +88,7 @@ mixin Fuse on Component {
 
 /// Returns the current Flame component.
 C fuseComponent<C extends Fuse>() {
-  final component = Zone.current[#component];
+  final component = _component;
 
   assert(
     component != null,
@@ -94,37 +100,7 @@ C fuseComponent<C extends Fuse>() {
     'This fuse requires a Flame component of type `$C`.',
   );
 
-  return component as C;
-}
-
-/// Returns the current Flame game.
-G fuseGame<G extends FlameGame>() {
-  final component = fuseComponent();
-  final game = component.findGame();
-
-  assert(
-    game != null,
-    '`fuseGame` must be used after the component is added to Flame game.',
-  );
-
-  assert(
-    game is G,
-    'This fuse requires Flame game of type `$G`.',
-  );
-
-  return game! as G;
-}
-
-/// Returns the current Flame game's camera.
-CameraComponent fuseCamera() {
-  final game = fuseGame();
-  return game.camera;
-}
-
-/// Returns the current Flame game's world.
-World fuseWorld() {
-  final game = fuseGame();
-  return game.world;
+  return component! as C;
 }
 
 /// Calls function [fn] on every Flame game update.
