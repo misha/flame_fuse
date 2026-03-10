@@ -1,3 +1,10 @@
+# Changelog
+
+## 2.0.0
+
+* Refactor: Move private classes, etc. into `src/` and expose the main library from `flame_fuse.dart` per standard Dart library conventions.
+* New: Implement fuses for managing drags.
+
 ## 1.0.3
 
 * Revert: Reverts the zone removal in change 1.0.2 as it seems to break `async` components occasionally.

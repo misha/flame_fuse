@@ -38,6 +38,7 @@ Additional `fuse*` functions become available if you also apply feature-specific
 | `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                         | Fuses related to pointers.    |
 | `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                   | Fuses related to taps.        |
 | `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                    | Fuses related to double taps. |
+| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`                               | Fuses related to dragging.    |
 
 Of course, the true power of fuses is unlocked by building your own, game-specific behaviors from the core fuses.
 

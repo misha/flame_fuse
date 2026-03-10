@@ -1,6 +1,5 @@
 {
   "recommendations": [
     "dart-code.flutter",
-    "gaetschwartz.build-runner"
   ]
 }

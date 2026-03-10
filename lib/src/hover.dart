@@ -1,5 +1,5 @@
 import 'package:flame/events.dart';
-import 'package:flame_fuse/fuses/core.dart';
+import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 
 typedef FuseHoverEnterFn = dynamic Function();
