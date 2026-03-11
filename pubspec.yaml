@@ -1,6 +1,6 @@
 name: flame_fuse
 description: Functional behavior composition for Flame components.
-version: 2.0.0
+version: 2.0.1
 homepage: https://github.com/misha/flame_fuse
 environment:
   sdk: ">=3.4.1 <4.0.0"

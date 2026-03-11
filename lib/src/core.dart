@@ -6,6 +6,7 @@ import 'package:flame_fuse/flame_fuse.dart';
 import 'package:flutter/foundation.dart';
 
 typedef FuseUpdateFn = dynamic Function(double dt);
+typedef FuseMountFn = dynamic Function();
 typedef FuseRemoveFn = dynamic Function();
 typedef FuseResizeFn = dynamic Function(Vector2 size);
 
@@ -17,6 +18,7 @@ typedef FuseResizeFn = dynamic Function(Vector2 size);
 ///   - [fuseComponent]
 ///   - [fuseGame]
 ///   - [fuseCamera]
+///   - [fuseMount]
 ///   - [fuseUpdate]
 ///   - [fuseRemove]
 ///   - [fuseResize]
@@ -31,6 +33,7 @@ typedef FuseResizeFn = dynamic Function(Vector2 size);
 ///   - [FuseTaps]
 ///   - [FuseDoubleTaps]
 mixin Fuse on Component {
+  final _mountFns = <FuseMountFn>[];
   final _updateFns = <FuseUpdateFn>[];
   final _removeFns = <FuseRemoveFn>[];
   final _resizeFns = <FuseResizeFn>[];
@@ -42,6 +45,16 @@ mixin Fuse on Component {
     await runZoned(fuse, zoneValues: {
       #component: this,
     });
+  }
+
+  @override
+  @mustCallSuper
+  void onMount() {
+    super.onMount();
+
+    for (final fn in _mountFns) {
+      fn();
+    }
   }
 
   @override
@@ -125,6 +138,12 @@ CameraComponent fuseCamera() {
 World fuseWorld() {
   final game = fuseGame();
   return game.world;
+}
+
+/// Calls function [fn] when the current Flame component is mounted.
+void fuseMount(FuseMountFn fn) {
+  final component = fuseComponent();
+  component._mountFns.add(fn);
 }
 
 /// Calls function [fn] on every Flame game update.

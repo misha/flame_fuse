@@ -1,22 +1,26 @@
 # Changelog
 
+## 2.0.1
+
+* new: Implement `fuseMount` for adding callbacks to `onMount`.
+
 ## 2.0.0
 
-* Refactor: Move private classes, etc. into `src/` and expose the main library from `flame_fuse.dart` per standard Dart library conventions.
-* New: Implement fuses for managing drags.
+* refactor: Move private classes, etc. into `src/` and expose the main library from `flame_fuse.dart` per standard Dart library conventions.
+* new: Implement fuses for managing drags.
 
 ## 1.0.3
 
-* Revert: Reverts the zone removal in change 1.0.2 as it seems to break `async` components occasionally.
+* revert: Reverts the zone removal in change 1.0.2 as it seems to break `async` components occasionally.
 
 ## 1.0.2
 
-* Refactor: Remove zone-based `fuseComponent` implementation in favor of a global variable.
+* refactor: Remove zone-based `fuseComponent` implementation in favor of a global variable.
 
 ## 1.0.1
 
-* Fix: Forgot to implement `fuseResize`.
+* fix: Forgot to implement `fuseResize`.
 
 ## 1.0.0
 
-* Write the original set of fuses and first version of the README as documentation.
+* new: Write the original set of fuses and first version of the README as documentation.
