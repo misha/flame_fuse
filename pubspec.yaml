@@ -3,7 +3,7 @@ description: Functional behavior composition for Flame components.
 version: 3.0.0
 homepage: https://github.com/misha/flame_fuse
 environment:
-  sdk: ">=3.11.1"
+  sdk: ^3.11.1
   flutter: ">=3.41.4"
 dependencies:
   flame: ^1.36.0
