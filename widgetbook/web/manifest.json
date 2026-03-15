@@ -1,6 +1,6 @@
 {
-    "name": "fuse_test",
-    "short_name": "fuse_test",
+    "name": "Flame Fuse Widgetbook",
+    "short_name": "Flame Fuse Widgetbook",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "fuse_test" "\0"
+            VALUE "FileDescription", "flame_fuse_widgetbook" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "fuse_test" "\0"
+            VALUE "InternalName", "flame_fuse_widgetbook" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "fuse_test.exe" "\0"
-            VALUE "ProductName", "fuse_test" "\0"
+            VALUE "OriginalFilename", "flame_fuse_widgetbook.exe" "\0"
+            VALUE "ProductName", "flame_fuse_widgetbook" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

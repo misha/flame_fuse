@@ -10,8 +10,10 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flame_fuse_widgetbook/stories/fuses/core_story.dart'
-    as _flame_fuse_widgetbook_stories_fuses_core_story;
+import 'package:flame_fuse_widgetbook/stories/demo_bouncing_balls.dart'
+    as _flame_fuse_widgetbook_stories_demo_bouncing_balls;
+import 'package:flame_fuse_widgetbook/stories/demo_spinning_square.dart'
+    as _flame_fuse_widgetbook_stories_demo_spinning_square;
 import 'package:widgetbook/widgetbook.dart' as _widgetbook;
 
 final directories = <_widgetbook.WidgetbookNode>[
@@ -19,8 +21,14 @@ final directories = <_widgetbook.WidgetbookNode>[
     name: 'Fuse',
     useCases: [
       _widgetbook.WidgetbookUseCase(
-        name: 'Default',
-        builder: _flame_fuse_widgetbook_stories_fuses_core_story.buildFuseStory,
+        name: 'Demo: Bouncing Balls',
+        builder: _flame_fuse_widgetbook_stories_demo_bouncing_balls
+            .buildBouncingBallsDemo,
+      ),
+      _widgetbook.WidgetbookUseCase(
+        name: 'Demo: Spinning Square',
+        builder: _flame_fuse_widgetbook_stories_demo_spinning_square
+            .buildSpinningSquareDemo,
       ),
     ],
   ),
