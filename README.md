@@ -14,7 +14,7 @@ dart pub add flame_fuse
 
 ## Usage
 
-Instead of overriding methods, behavior is component in the `fuse` method by calling `fuse*` methods.
+Instead of overriding methods, behavior is composed in the `fuse` method by calling `fuse*` methods.
 
 ```dart
 class SpinningSquare extends RectangleComponent with Fuse {
