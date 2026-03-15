@@ -2,13 +2,20 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_fuse/flame_fuse.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FuseUpdateFn = dynamic Function(double dt);
-typedef FuseMountFn = dynamic Function();
-typedef FuseRemoveFn = dynamic Function();
-typedef FuseResizeFn = dynamic Function(Vector2 size);
+import 'package:flame_fuse/src/collisions.dart';
+import 'package:flame_fuse/src/drag.dart';
+import 'package:flame_fuse/src/hover.dart';
+import 'package:flame_fuse/src/keys.dart';
+import 'package:flame_fuse/src/pointers.dart';
+import 'package:flame_fuse/src/taps.dart';
+import 'package:flame_fuse/src/taps2.dart';
+
+typedef FuseUpdateFn = Function(double dt);
+typedef FuseMountFn = Function();
+typedef FuseRemoveFn = Function();
+typedef FuseResizeFn = Function(Vector2 size);
 
 /// Adds a [fuse] method to a Flame component. While inside this method,
 /// behavior may be composed by calling any number of fuse* functions.
@@ -22,11 +29,11 @@ typedef FuseResizeFn = dynamic Function(Vector2 size);
 ///   - [fuseUpdate]
 ///   - [fuseRemove]
 ///   - [fuseResize]
-///   - [fuseTimer]
 ///
 /// The following mixins are also available for additional fuses:
 ///
 ///   - [FuseCollisions]
+///   - [FuseDrags]
 ///   - [FuseHovers]
 ///   - [FuseKeys]
 ///   - [FusePointers]
@@ -42,9 +49,12 @@ mixin Fuse on Component {
   @mustCallSuper
   Future<void> onLoad() async {
     await super.onLoad();
-    await runZoned(fuse, zoneValues: {
-      #component: this,
-    });
+    await runZoned(
+      fuse,
+      zoneValues: {
+        #component: this,
+      },
+    );
   }
 
   @override

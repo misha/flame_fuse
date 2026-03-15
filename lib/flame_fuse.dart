@@ -13,4 +13,3 @@ export 'src/keys.dart';
 export 'src/pointers.dart';
 export 'src/taps.dart';
 export 'src/taps2.dart';
-export 'src/timer.dart';

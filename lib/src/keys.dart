@@ -4,14 +4,9 @@ import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-typedef FuseKeyEventFn = bool? Function(
-  KeyEvent event,
-  Set<LogicalKeyboardKey> keysPressed,
-);
+typedef FuseKeyEventFn = bool? Function(KeyEvent event, Set<LogicalKeyboardKey> keysPressed);
 
-/// Mixin that enables the usage of key fuses:
-///
-///   - [fuseKeyEvent]
+/// Mixin that enables the usage of `fuseKey*` fuses.
 ///
 /// Note that the normal requirements for [KeyboardHandler] components still apply.
 mixin FuseKeys on Fuse, KeyboardHandler {

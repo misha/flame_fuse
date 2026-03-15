@@ -1,7 +1,33 @@
 include: package:flame_lint/analysis_options.yaml
 analyzer:
   errors:
-    lines_longer_than_80_chars: ignore
-    non_constant_identifier_names: ignore
-    require_trailing_commas: ignore
-    use_key_in_widget_constructors: ignore
+    body_might_complete_normally_nullable: false
+    implicit_call_tearoffs: ignore
+    parameter_assignments: ignore
+    prefer_function_declarations_over_variables: ignore
+  exclude:
+    - "**/*.g.dart"
+linter:
+  rules:
+    avoid_print: false
+    prefer_single_quotes: true
+    prefer_const_constructors: false
+    use_key_in_widget_constructors: false
+    lines_longer_than_80_chars: false
+    non_constant_identifier_names: false
+    flutter_style_todos: false
+    require_trailing_commas: false
+    constant_identifier_names: false
+    directives_ordering: false
+    sort_unnamed_constructors_first: false
+    always_put_required_named_parameters_first: false
+    implementation_imports: false
+    prefer_is_empty: false
+    use_setters_to_change_properties: false
+    unnecessary_lambdas: false
+    avoid_escaping_inner_quotes: false
+    prefer_const_literals_to_create_immutables: false
+    curly_braces_in_flow_control_structures: false
+formatter:
+  page_width: 120
+  trailing_commas: preserve

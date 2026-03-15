@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.0
+
+* new: Implement `fuseCollisionEffect`, `fuseCollisionEffectPoints`, `fuseDragEffect`, and `fuseHoverEffect`. These are the `useEffect` equivalents of this library, allowing you to return a cleanup function that is called automatically.
+* remove: The `fuseTimer` fuse was pointless and has been removed. Add timers to the component tree instead.
+* refactor: Fuses that were previously `void` are now `dynamic`.
+* docs: Improve the documentation on various functions.
+* docs: Simplify documentation on fuse mixins for maintenance purposes.
+* docs: Rewrite the Storybook into a combination documentation/usage example Widgetbook deployed to `misha.jp`.
+
 ## 2.0.1
 
 * new: Implement `fuseMount` for adding callbacks to `onMount`.

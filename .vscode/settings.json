@@ -1,8 +1,31 @@
 {
+  "chat.disableAIFeatures": true,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.formatOnSave": true,
   "files.insertFinalNewline": true,
+  "files.exclude": {
+    "**/.dart_tool": true,
+    "**/.git": true,
+    "**/*.g.dart": true,
+  },
   "dart.lineLength": 120,
   "cSpell.enabled": true,
+  "cSpell.ignorePaths": [
+    "LICENSE",
+    "pubspec.lock",
+    "pubspec.yaml",
+    "vscode-extension",
+    ".git/{info,lfs,logs,refs,objects}/**",
+    ".git/{index,*refs,*HEAD}",
+    ".gitignore",
+    ".vscode/",
+  ],
+  "cSpell.words": [
+    "Hitbox",
+    "misha",
+    "subosito",
+    "tearoffs",
+    "Widgetbook"
+  ],
 }

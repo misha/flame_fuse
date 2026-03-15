@@ -1,16 +1,14 @@
 import 'package:flame/events.dart';
-import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FuseHoverEnterFn = dynamic Function();
-typedef FuseHoverExitFn = dynamic Function();
-typedef FuseHoverUpdateFn = dynamic Function(double dt);
+import 'package:flame_fuse/src/core.dart';
 
-/// Mixin that enables the usage of hover fuses:
-///
-///   - [fuseHoverEnter]
-///   - [fuseHoverExit]
-///   - [fuseHoverUpdate]
+typedef FuseHoverEnterFn = Function();
+typedef FuseHoverExitFn = Function();
+typedef FuseHoverUpdateFn = Function(double dt);
+typedef FuseHoverEffectFn = Function()? Function();
+
+/// Mixin that enables the usage of `fuseHover*` fuses.
 mixin FuseHovers on Fuse, HoverCallbacks {
   final _enterFns = <FuseHoverEnterFn>[];
   final _exitFns = <FuseHoverExitFn>[];
@@ -47,11 +45,34 @@ void fuseHoverExit(FuseHoverExitFn fn) {
 /// Calls [fn] while hovering over this component.
 void fuseHoverUpdate(FuseHoverUpdateFn fn) {
   var enabled = false;
-  fuseHoverEnter(() => enabled = true);
-  fuseHoverExit(() => enabled = false);
+
+  fuseHoverEnter(() {
+    enabled = true;
+  });
+
+  fuseHoverExit(() {
+    enabled = false;
+  });
+
   fuseUpdate((dt) {
     if (enabled) {
       fn(dt);
     }
+  });
+}
+
+/// Calls [fn] when hover enters this component.
+///
+/// /// The [fn] may optionally return a cleanup function that is called when the hover exits.
+void fuseHoverEffect(FuseHoverEffectFn fn) {
+  Function()? cleanup;
+
+  fuseHoverEnter(() {
+    cleanup = fn();
+  });
+
+  fuseHoverExit(() {
+    cleanup?.call();
+    cleanup = null;
   });
 }

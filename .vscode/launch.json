@@ -2,12 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Storybook",
-      "cwd": "fuse_test",
+      "name": "Widgetbook",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "program": "test/main.dart"
+      "cwd": "widgetbook",
     },
   ]
 }

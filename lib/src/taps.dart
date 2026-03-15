@@ -2,17 +2,12 @@ import 'package:flame/events.dart';
 import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FuseTapDownFn = void Function(TapDownEvent event);
-typedef FuseTapUpFn = void Function(TapUpEvent event);
-typedef FuseTapCancelFn = void Function(TapCancelEvent event);
-typedef FuseLongTapDownFn = void Function(TapDownEvent event);
+typedef FuseTapDownFn = Function(TapDownEvent event);
+typedef FuseTapUpFn = Function(TapUpEvent event);
+typedef FuseTapCancelFn = Function(TapCancelEvent event);
+typedef FuseLongTapDownFn = Function(TapDownEvent event);
 
-/// Mixin that enables the usage of tap fuses:
-///
-///   - [fuseTapDown]
-///   - [fuseTapUp]
-///   - [fuseTapCancel]
-///   - [fuseLongTapDown]
+/// Mixin that enables the usage of `fuseTap*` fuses.
 mixin FuseTaps on Fuse, TapCallbacks {
   final _tapDownFns = <FuseTapDownFn>[];
   final _tapUpFns = <FuseTapUpFn>[];

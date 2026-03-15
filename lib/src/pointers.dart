@@ -2,13 +2,10 @@ import 'package:flame/events.dart';
 import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FusePointerMoveFn = dynamic Function(PointerMoveEvent event);
-typedef FusePointerMoveStopFn = dynamic Function(PointerMoveEvent event);
+typedef FusePointerMoveFn = Function(PointerMoveEvent event);
+typedef FusePointerMoveStopFn = Function(PointerMoveEvent event);
 
-/// Mixin that enables the usage of pointer fuses:
-///
-///   - [fusePointerMove]
-///   - [fusePointerMoveStop]
+/// Mixin that enables the usage of `fusePointer*` fuses.
 mixin FusePointers on Fuse, PointerMoveCallbacks {
   final _moveFns = <FusePointerMoveFn>[];
   final _stopFns = <FusePointerMoveStopFn>[];

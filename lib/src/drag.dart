@@ -1,18 +1,15 @@
 import 'package:flame/events.dart';
-import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FuseDragStartFn = void Function(DragStartEvent event);
-typedef FuseDragUpdateFn = void Function(DragUpdateEvent event);
-typedef FuseDragEndFn = void Function(DragEndEvent event);
-typedef FuseDragCancelFn = void Function(DragCancelEvent event);
+import 'package:flame_fuse/src/core.dart';
 
-/// Mixin that enables the usage of drag fuses:
-///
-///   - [fuseDragStart]
-///   - [fuseDragUpdate]
-///   - [fuseDragEnd]
-///   - [fuseDragCancel]
+typedef FuseDragStartFn = Function(DragStartEvent event);
+typedef FuseDragUpdateFn = Function(DragUpdateEvent event);
+typedef FuseDragEndFn = Function(DragEndEvent event);
+typedef FuseDragCancelFn = Function(DragCancelEvent event);
+typedef FuseDragEffectFn = Function(DragEndEvent event)? Function(DragStartEvent event);
+
+/// Mixin that enables the usage of `fuseDrag*` fuses.
 mixin FuseDrags on Fuse, DragCallbacks {
   final _dragStartFns = <FuseDragStartFn>[];
   final _dragUpdateFns = <FuseDragUpdateFn>[];
@@ -78,4 +75,20 @@ void fuseDragEnd(FuseDragEndFn fn) {
 void fuseDragCancel(FuseDragCancelFn fn) {
   final component = fuseComponent<FuseDrags>();
   component._dragCancelFns.add(fn);
+}
+
+/// Calls [fn] when a drag start event occurs.
+///
+/// The [fn] may optionally return a cleanup function that is called when the drag ends.
+void fuseDragEffect(FuseDragEffectFn fn) {
+  Function(DragEndEvent)? cleanup;
+
+  fuseDragStart((event) {
+    cleanup = fn(event);
+  });
+
+  fuseDragEnd((event) {
+    cleanup?.call(event);
+    cleanup = null;
+  });
 }

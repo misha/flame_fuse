@@ -1,23 +1,16 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_fuse/flame_fuse.dart';
 import 'package:flutter/foundation.dart';
 
-typedef FuseCollisionFn<C extends PositionComponent> = //
-    void Function(C other);
+import 'package:flame_fuse/src/core.dart';
 
-typedef FuseCollisionPointsFn<C extends PositionComponent> = //
-    void Function(C other, Set<Vector2> points);
+typedef FuseCollisionFn<C extends PositionComponent> = Function(C other);
+typedef FuseCollisionPointsFn<C extends PositionComponent> = Function(C other, Set<Vector2> points);
+typedef FuseCollisionEndFn<C extends PositionComponent> = Function(C other);
+typedef FuseCollisionEffectFn<C extends PositionComponent> = Function()? Function(C other);
+typedef FuseCollisionEffectPointsFn<C extends PositionComponent> = Function()? Function(C other, Set<Vector2> points);
 
-typedef FuseCollisionEndFn<C extends PositionComponent> = //
-    void Function(C other);
-
-/// Mixin that enables the usage of collision fuses:
-///
-///   - [fuseCollision]
-///   - [fuseCollisionPoints]
-///   - [fuseCollisionStart]
-///   - [fuseCollisionEnd]
+/// Mixin that enables the usage of `fuseCollision*` fuses.
 ///
 /// Note that the normal requirements for [CollisionCallbacks] components still apply.
 mixin FuseCollisions on Fuse, CollisionCallbacks {
@@ -127,6 +120,7 @@ void fuseCollisionStartPoints<C extends PositionComponent>(FuseCollisionPointsFn
   });
 }
 
+/// Calls [fn] when this component stops colliding with another component of type [C].
 void fuseCollisionEnd<C extends PositionComponent>(FuseCollisionEndFn<C> fn) {
   _fuseCollisionsCheck();
   final component = fuseComponent<FuseCollisions>();
@@ -135,5 +129,45 @@ void fuseCollisionEnd<C extends PositionComponent>(FuseCollisionEndFn<C> fn) {
     if (target is C) {
       fn(target);
     }
+  });
+}
+
+/// Calls [fn] when this component collides with another component of type [C].
+///
+/// The [fn] may optionally return a cleanup function that is called when the collision ends.
+void fuseCollisionEffect<C extends PositionComponent>(FuseCollisionEffectFn<C> fn) {
+  final cleanups = <C, Function()>{};
+
+  fuseCollisionStart<C>((target) {
+    final cleanup = fn(target);
+
+    if (cleanup != null) {
+      cleanups[target] = cleanup;
+    }
+  });
+
+  fuseCollisionEnd<C>((target) {
+    cleanups.remove(target)?.call();
+  });
+}
+
+/// Calls [fn] when this component collides with another component of type [C].
+///
+/// The [fn] may optionally return a cleanup function that is called when the collision ends.
+///
+/// This version also returns the points at which the collision occurred.
+void fuseCollisionEffectPoints<C extends PositionComponent>(FuseCollisionEffectPointsFn<C> fn) {
+  final cleanups = <C, Function()>{};
+
+  fuseCollisionStartPoints<C>((target, points) {
+    final cleanup = fn(target, points);
+
+    if (cleanup != null) {
+      cleanups[target] = cleanup;
+    }
+  });
+
+  fuseCollisionEnd<C>((target) {
+    cleanups.remove(target)?.call();
   });
 }

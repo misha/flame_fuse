@@ -1,6 +1,8 @@
-# Fuse
+# Flame Fuse
 
-Fuse is a library for writing [Flame](https://github.com/flame-engine/flame) component behavior in a composable way.
+`flame_fuse` is a library for programming [Flame](https://github.com/flame-engine/flame) components in a composable way, similar to `flutter_hooks`.
+
+Documentation and usage examples are available via a widgetbook deployed [here](https://misha.jp/flame_fuse).
 
 > :warning: This project is not affiliated with Blue Fire or the official Flame project in any way.
 
@@ -29,16 +31,16 @@ Any Flame component may use the `Fuse` mixin to gain access to this special meth
 
 Additional `fuse*` functions become available if you also apply feature-specific mixins. Here is the master list of available fuses:
 
-| Mixin            | Fuses                                                                                            | Description                   |
-|------------------|--------------------------------------------------------------------------------------------------|-------------------------------|
-| `Fuse`           | `fuseComponent`, `fuseGame`, `fuseCamera`, `fuseUpdate`, `fuseRemove`, `fuseResize`, `fuseTimer` | Core fuses.                   |
-| `FuseCollisions` | `fuseCollision`, `fuseCollisionPoints`, `fuseCollisionStart`, `fuseCollisionEnd`                 | Fuses related to collisions.  |
-| `FuseHovers`     | `fuseHoverEnter`, `fuseHoverExit`, `fuseHoverUpdate`                                             | Fuses related to hovers.      |
-| `FuseKeys`       | `fuseKeyEvent`                                                                                   | Fuses related to keys.        |
-| `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                         | Fuses related to pointers.    |
-| `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                   | Fuses related to taps.        |
-| `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                    | Fuses related to double taps. |
-| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`                               | Fuses related to dragging.    |
+| Mixin            | Fuses                                                                                                                                | Description                   |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| `Fuse`           | `fuseComponent`, `fuseGame`, `fuseCamera`, `fuseUpdate`, `fuseRemove`, `fuseResize`                                                  | Core fuses.                   |
+| `FuseCollisions` | `fuseCollision`, `fuseCollisionPoints`, `fuseCollisionStart`, `fuseCollisionEnd`, `fuseCollisionEffect`, `fuseCollisionEffectPoints` | Fuses related to collisions.  |
+| `FuseHovers`     | `fuseHoverEnter`, `fuseHoverExit`, `fuseHoverUpdate`                                                                                 | Fuses related to hovers.      |
+| `FuseKeys`       | `fuseKeyEvent`                                                                                                                       | Fuses related to keys.        |
+| `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                                                             | Fuses related to pointers.    |
+| `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                                                       | Fuses related to taps.        |
+| `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                                                        | Fuses related to double taps. |
+| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`, `fuseDragEffect`                                                 | Fuses related to dragging.    |
 
 Of course, the true power of fuses is unlocked by building your own, game-specific behaviors from the core fuses.
 
@@ -172,14 +174,6 @@ void fuseBallRecolor() {
 ```
 
 Now anything with a velocity vector or a `Paint` object can trivially share either of those behaviors with the `Ball` component.
-
-## Development
-
-The main Fuse project is stored in the top-level directory.
-
-The tests are written in a Storybook located in the `fuse_test` package. Unfortunately, the top-level project is a package-type project and cannot have a platform attached to it. As a result, I have opted to have a separate, application-type project to host the Storybook instead.
-
-If you have any problems or suggestions, please open an issue on GitHub.
 
 ## Naming
 
