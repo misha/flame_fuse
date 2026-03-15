@@ -3,8 +3,8 @@ description: Widgetbook for the flame_fuse package.
 publish_to: none
 version: 1.0.0+1
 environment:
-  sdk: ^3.11.1
-  flutter: ^3.41.4
+  sdk: ">=3.11.1"
+  flutter: ">=3.41.4"
 dependencies:
   flame: ^1.36.0
   flame_fuse:

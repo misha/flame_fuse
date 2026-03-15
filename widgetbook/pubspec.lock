@@ -207,7 +207,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.1"
+    version: "3.0.0"
   flame_lint:
     dependency: "direct dev"
     description:
@@ -678,4 +678,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.11.1 <4.0.0"
-  flutter: ">=3.41.4 <4.0.0"
+  flutter: ">=3.41.4"
