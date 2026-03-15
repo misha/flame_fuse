@@ -16,6 +16,7 @@ typedef FuseUpdateFn = Function(double dt);
 typedef FuseMountFn = Function();
 typedef FuseRemoveFn = Function();
 typedef FuseResizeFn = Function(Vector2 size);
+typedef FuseParentResizeFn = Function(Vector2 maxSize);
 
 /// Adds a [fuse] method to a Flame component. While inside this method,
 /// behavior may be composed by calling any number of fuse* functions.
@@ -29,6 +30,7 @@ typedef FuseResizeFn = Function(Vector2 size);
 ///   - [fuseUpdate]
 ///   - [fuseRemove]
 ///   - [fuseResize]
+///   - [fuseParentResize]
 ///
 /// The following mixins are also available for additional fuses:
 ///
@@ -44,17 +46,13 @@ mixin Fuse on Component {
   final _updateFns = <FuseUpdateFn>[];
   final _removeFns = <FuseRemoveFn>[];
   final _resizeFns = <FuseResizeFn>[];
+  final _parentResizeFns = <FuseParentResizeFn>[];
 
   @override
   @mustCallSuper
   Future<void> onLoad() async {
     await super.onLoad();
-    await runZoned(
-      fuse,
-      zoneValues: {
-        #component: this,
-      },
-    );
+    await runZoned(fuse, zoneValues: {#component: this});
   }
 
   @override
@@ -93,6 +91,15 @@ mixin Fuse on Component {
 
     for (final fn in _resizeFns) {
       fn(size);
+    }
+  }
+
+  @override
+  void onParentResize(Vector2 maxSize) {
+    super.onParentResize(maxSize);
+
+    for (final fn in _parentResizeFns) {
+      fn(maxSize);
     }
   }
 
@@ -172,4 +179,10 @@ void fuseRemove(FuseRemoveFn fn) {
 void fuseResize(FuseResizeFn fn) {
   final component = fuseComponent();
   component._resizeFns.add(fn);
+}
+
+/// Calls function [fn] whenever the parent component is resized.
+void fuseParentResize(FuseParentResizeFn fn) {
+  final component = fuseComponent();
+  component._parentResizeFns.add(fn);
 }
