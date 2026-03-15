@@ -3,6 +3,7 @@
 ## 3.0.0
 
 * new: Implement `fuseCollisionEffect`, `fuseCollisionEffectPoints`, `fuseDragEffect`, and `fuseHoverEffect`. These are the `useEffect` equivalents of this library, allowing you to return a cleanup function that is called automatically.
+* new: Implement `fuseParentResize`.
 * remove: The `fuseTimer` fuse was pointless and has been removed. Add timers to the component tree instead.
 * refactor: Fuses that were previously `void` are now `dynamic`.
 * docs: Improve the documentation on various functions.
