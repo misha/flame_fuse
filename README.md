@@ -176,7 +176,7 @@ This advantage is shared with frontend frameworks that use hooks, like React and
 
 ![react hooks locality](assets/react-hooks.gif)
 
-##### Advantage #2: Composability
+#### Advantage #2: Composability
 
 In the version written with fuses, it's trivial to extract *either* behavior into a standalone, reusable fuse. Here is how you might write a fuse that allows any component to "bounce when hitting a wall":
 
@@ -218,7 +218,7 @@ void fuseCollisionColoring() {
 }
 ```
 
-Now any `PositionComponent` can reuse the movement logic, and any `HasPaint` trivially reuse the coloring logic.
+Now any `PositionComponent` can reuse the movement logic, and any `HasPaint` can trivially reuse the coloring logic.
 
 ## Naming
 
