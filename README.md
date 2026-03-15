@@ -2,7 +2,7 @@
 
 `flame_fuse` is a library for programming [Flame](https://github.com/flame-engine/flame) components in a composable way, similar to `flutter_hooks`.
 
-Demos are available via a widgetbook deployed [here](https://misha.jp/flame_fuse).
+Demos are available via a widgetbook deployed [here](https://misha.jp/flame_fuse). For a complete game using this library to implement non-trivial behavior, check out the source code of [Ministry of Order](https://github.com/misha/moo).
 
 > :warning: This project is not affiliated with Blue Fire or the official Flame project in any way.
 
@@ -14,18 +14,22 @@ dart pub add flame_fuse
 
 ## Usage
 
-Instead of implementing callbacks, all behavior is added in the `fuse` method at load time.
+Instead of overriding methods, behavior is component in the `fuse` method by calling `fuse*` methods.
 
 ```dart
 class SpinningSquare extends RectangleComponent with Fuse {
   @override
-  FutureOr<void> fuse() {
+  void fuse() {
     fuseUpdate((dt) {
       angle += (pi / 2) * dt;
     });
   }
 }
 ```
+
+The `fuse` method is called exactly once during `onLoad`.
+
+All other component methods gain behavior using the appropriate fuse. For example, `fuseUpdate` calls a function every `update`; `fuseResize` calls a function whenever the game is resized; and `fuseRemove` calls a function when the component is unmounted.
 
 Any Flame component may use the `Fuse` mixin to gain access to this special method. All functions that add behavior inside the `fuse` method are conventionally prefixed with the word `fuse`.
 
@@ -43,6 +47,8 @@ Additional `fuse*` functions become available if you also apply feature-specific
 | `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                                                             | Fuses related to pointers.    |
 | `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                                                       | Fuses related to taps.        |
 | `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                                                        | Fuses related to double taps. |
+
+Most games will implement their own fuses as compositions of these core fuses.
 
 ## Why Fuse?
 
