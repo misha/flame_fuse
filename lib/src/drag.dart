@@ -20,6 +20,7 @@ mixin FuseDrags on Fuse, DragCallbacks {
   @mustCallSuper
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
+
     for (final fn in _dragStartFns) {
       fn(event);
     }
@@ -29,6 +30,7 @@ mixin FuseDrags on Fuse, DragCallbacks {
   @mustCallSuper
   void onDragUpdate(DragUpdateEvent event) {
     super.onDragUpdate(event);
+
     for (final fn in _dragUpdateFns) {
       fn(event);
     }
@@ -38,6 +40,7 @@ mixin FuseDrags on Fuse, DragCallbacks {
   @mustCallSuper
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
+
     for (final fn in _dragEndFns) {
       fn(event);
     }
@@ -47,6 +50,7 @@ mixin FuseDrags on Fuse, DragCallbacks {
   @mustCallSuper
   void onDragCancel(DragCancelEvent event) {
     super.onDragCancel(event);
+
     for (final fn in _dragCancelFns) {
       fn(event);
     }
