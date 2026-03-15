@@ -1,8 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_fuse/src/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+
+import 'package:flame_fuse/src/core.dart';
 
 typedef FuseKeyEventFn = bool? Function(KeyEvent event, Set<LogicalKeyboardKey> keysPressed);
 
