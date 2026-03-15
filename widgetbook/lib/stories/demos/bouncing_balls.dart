@@ -11,10 +11,10 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
 import 'package:flame_fuse_widgetbook/widgets/demo_frame.dart';
 
-@UseCase(name: 'Demo: Bouncing Balls', type: Fuse)
+@UseCase(name: 'Bouncing Balls', type: Fuse)
 Widget buildBouncingBallsDemo(_) {
   return DemoFrame(
-    name: 'bouncing_balls_demo',
+    name: 'demos/bouncing_balls',
     child: GameWidget(
       game: BouncingBallsGame(),
     ),

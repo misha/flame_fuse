@@ -9,10 +9,10 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
 import 'package:flame_fuse_widgetbook/widgets/demo_frame.dart';
 
-@UseCase(name: 'Demo: Spinning Square', type: Fuse)
+@UseCase(name: 'Spinning Square', type: Fuse)
 Widget buildSpinningSquareDemo(_) {
   return DemoFrame(
-    name: 'spinning_square_demo',
+    name: 'demos/spinning_square',
     child: GameWidget(
       game: SpinningSquareGame(),
     ),

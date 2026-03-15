@@ -2,7 +2,7 @@
 
 `flame_fuse` is a library for programming [Flame](https://github.com/flame-engine/flame) components in a composable way, similar to `flutter_hooks`.
 
-Documentation and usage examples are available via a widgetbook deployed [here](https://misha.jp/flame_fuse).
+Demos are available via a widgetbook deployed [here](https://misha.jp/flame_fuse).
 
 > :warning: This project is not affiliated with Blue Fire or the official Flame project in any way.
 
@@ -27,7 +27,9 @@ class SpinningSquare extends RectangleComponent with Fuse {
 }
 ```
 
-Any Flame component may use the `Fuse` mixin to gain access to this special method. All functions that add behavior inside the `fuse` method are prefixed with the word `fuse`.
+Any Flame component may use the `Fuse` mixin to gain access to this special method. All functions that add behavior inside the `fuse` method are conventionally prefixed with the word `fuse`.
+
+> :warning: Fuses *must* be called at the top level of the `fuse` function. They cannot be called inside loops, conditionals, or nested functions. This is the same rule as React and Flutter hooks.
 
 Additional `fuse*` functions become available if you also apply feature-specific mixins. Here is the master list of available fuses:
 
@@ -35,14 +37,12 @@ Additional `fuse*` functions become available if you also apply feature-specific
 |------------------|--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
 | `Fuse`           | `fuseComponent`, `fuseGame`, `fuseCamera`, `fuseUpdate`, `fuseRemove`, `fuseResize`                                                  | Core fuses.                   |
 | `FuseCollisions` | `fuseCollision`, `fuseCollisionPoints`, `fuseCollisionStart`, `fuseCollisionEnd`, `fuseCollisionEffect`, `fuseCollisionEffectPoints` | Fuses related to collisions.  |
+| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`, `fuseDragEffect`                                                 | Fuses related to dragging.    |
 | `FuseHovers`     | `fuseHoverEnter`, `fuseHoverExit`, `fuseHoverUpdate`                                                                                 | Fuses related to hovers.      |
 | `FuseKeys`       | `fuseKeyEvent`                                                                                                                       | Fuses related to keys.        |
 | `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                                                             | Fuses related to pointers.    |
 | `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                                                       | Fuses related to taps.        |
 | `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                                                        | Fuses related to double taps. |
-| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`, `fuseDragEffect`                                                 | Fuses related to dragging.    |
-
-Of course, the true power of fuses is unlocked by building your own, game-specific behaviors from the core fuses.
 
 ## Why Fuse?
 
@@ -52,21 +52,22 @@ There are a few advantages to writing Flame components using this library.
 
 To illustrate these advantages, consider the following `Ball` component. The component has two behaviors:
 
-1. Bouncing off walls, which affects its velocity.
-2. Randomly changing colors when colliding with other balls.
+1. Bounce off walls.
+2. Green by default, red when colliding.
 
 ```dart
+final rng = Random();
+
 class Ball extends CircleComponent with CollisionCallbacks {
   final velocity = Vector2.all(250) //
-    ..rotate(2 * pi * _RANDOM.nextDouble());
+    ..rotate(2 * pi * rng.nextDouble());
+
+  var _collisions = 0;
 
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    anchor = Anchor.center;
-    size = Vector2.all(33);
-    paint.color = randomColor();
+  void onLoad() {
     add(CircleHitbox());
+    paint.color = Colors.green;
   }
 
   @override
@@ -75,19 +76,30 @@ class Ball extends CircleComponent with CollisionCallbacks {
   }
 
   @override
-  void onCollisionStart(
-    Set<Vector2> intersectionPoints, 
-    PositionComponent other,
-  ) {
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
 
     switch (other) {
       case Wall():
         velocity.reflect(other.normal);
-        break;
+
       case Ball():
-        paint.color = randomColor();
-        break;
+        _collisions += 1;
+        paint.color = Colors.red;
+    }
+  }
+  
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    super.onCollisionEnd(other);
+
+    switch (other) {
+      case Ball():
+        _collisions -= 1;
+
+        if (_collisions == 0) {
+          paint.color = Colors.green;
+        }
     }
   }
 }
@@ -95,27 +107,29 @@ class Ball extends CircleComponent with CollisionCallbacks {
 
 There are two major issues with this implementation:
 
-1. The code for each behavior (position and color) is interwoven throughout the component. To understand what a particular behavior ultimately does, you *must* read the entire component.
-2. It is not easy or obvious how to extract the behavior to "bounce when colliding with walls" or "change colors when colliding with balls" for reuse in other components.
+1. The code for each behavior (movement and coloring) is interwoven throughout the component. To understand what a particular behavior ultimately does, you *must* read the entire component.
+2. It is not easy or obvious how to extract the behavior to "move and bounce off walls" or "change colors while colliding" for reuse in other components.
 
 ### With Fuse
 
 This library resolves both these issues directly.
 
-Here is the exact same ball component rewritten using fuses instead:
+Here is the exact same ball, rewritten using fuses:
 
 ```dart
-class Ball extends CircleComponent 
-    with Fuse, CollisionCallbacks, FuseCollisions {
+final rng = Random();
 
+class Ball extends CircleComponent with Fuse, CollisionCallbacks, FuseCollisions {
   @override
-  FutureOr<void> fuse() {
-    anchor = Anchor.center;
-    size = Vector2.all(33);
-    add(CircleHitbox(collisionType: CollisionType.active));
+  void fuse() {
+    add(CircleHitbox());
+
+    //
+    // Movement
+    //
 
     final velocity = Vector2.all(250) //
-      ..rotate(2 * pi * _RANDOM.nextDouble());
+      ..rotate(2 * pi * rng.nextDouble());
 
     fuseUpdate((dt) {
       position += velocity * dt;
@@ -125,10 +139,24 @@ class Ball extends CircleComponent
       velocity.reflect(wall.normal);
     });
 
-    paint.color = randomColor();
+    //
+    // Coloring
+    //
 
-    fuseCollisionStart<Ball>((_) {
-      paint.color = randomColor();
+    paint.color = Colors.green;
+    var collisions = 0;
+
+    fuseCollisionEffect<Ball>((_) {
+      collisions += 1;
+      paint.color = Colors.red;
+
+      return () {
+        collisions -= 1;
+
+        if (collisions == 0) {
+          paint.color = Colors.green;
+        }
+      };
     });
   }
 }
@@ -136,7 +164,7 @@ class Ball extends CircleComponent
 
 #### Advantage #1: Locality of Behavior
 
-In the version written with fuses, the position behavior code and the color behavior code are **no longer interspersed**. In order to understand a single behavior in its entirety, you need only look at that particular section of the component. In short, it accomplishes locality of behavior.
+In the version written with fuses, the movement and coloring code are **no longer interspersed**. In order to understand a single behavior in its entirety, you need only look at that particular section of the component. In short, it accomplishes locality of behavior.
 
 This advantage is shared with frontend frameworks that use hooks, like React and `flutter_hooks`. The following GIF from a popular Tweet on React Hooks exemplifies the shift in code organization, where colored parts represent parts of the same feature or behavior:
 
@@ -147,7 +175,7 @@ This advantage is shared with frontend frameworks that use hooks, like React and
 In the version written with fuses, it's trivial to extract *either* behavior into a standalone, reusable fuse. Here is how you might write a fuse that allows any component to "bounce when hitting a wall":
 
 ```dart
-void fuseBallMovement(Vector2 velocity) {
+void fuseMovement(Vector2 velocity) {
   final component = fuseComponent<PositionComponent>();
 
   fuseUpdate((dt) {
@@ -160,20 +188,31 @@ void fuseBallMovement(Vector2 velocity) {
 }
 ```
 
-Similarly, here's how you could easily extract the color behavior:
+Similarly, here's how you could easily extract the coloring behavior:
 
 ```dart
-void fuseBallRecolor() {
+void fuseCollisionColoring() {
   final component = fuseComponent<HasPaint>();
-  component.paint.color = randomColor();
+  final paint = component.paint;
+  paint.color = Colors.green;
+  var collisions = 0;
 
-  fuseCollisionStart<Ball>((_) {
-    component.paint.color = randomColor();
+  fuseCollisionEffect<Ball>((_) {
+    collisions += 1;
+    paint.color = Colors.red;
+
+    return () {
+      collisions -= 1;
+
+      if (collisions == 0) {
+        paint.color = Colors.green;
+      }
+    };
   });
 }
 ```
 
-Now anything with a velocity vector or a `Paint` object can trivially share either of those behaviors with the `Ball` component.
+Now any `PositionComponent` can reuse the movement logic, and any `HasPaint` trivially reuse the coloring logic.
 
 ## Naming
 
