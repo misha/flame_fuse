@@ -127,19 +127,19 @@ C fuseComponent<C extends Fuse>() {
   return component as C;
 }
 
-/// Returns the current Flame game.
-G fuseGame<G extends FlameGame>() {
+/// Returns the current game.
+G fuseGame<G extends Game>() {
   final component = fuseComponent();
   final game = component.findGame();
 
   assert(
     game != null,
-    '`fuseGame` must be used after the component is added to Flame game.',
+    '`fuseGame` must be used after the component is added to the game.',
   );
 
   assert(
     game is G,
-    'This fuse requires Flame game of type `$G`.',
+    'This fuse requires a game of type `$G`.',
   );
 
   return game! as G;
@@ -147,13 +147,13 @@ G fuseGame<G extends FlameGame>() {
 
 /// Returns the current Flame game's camera.
 CameraComponent fuseCamera() {
-  final game = fuseGame();
+  final game = fuseGame<FlameGame>();
   return game.camera;
 }
 
 /// Returns the current Flame game's world.
 World fuseWorld() {
-  final game = fuseGame();
+  final game = fuseGame<FlameGame>();
   return game.world;
 }
 

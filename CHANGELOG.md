@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+* new: Loosened the constraints on `fuseGame` to allow for non-`FlameGame` access, e.g. a `Forge2DGame`. As a result, `fuseCamera` and `fuseWorld` now both require a `FlameGame` internally.
+
 ## 3.0.0
 
 * new: Implement `fuseCollisionEffect`, `fuseCollisionEffectPoints`, `fuseDragEffect`, and `fuseHoverEffect`. These are the `useEffect` equivalents of this library, allowing you to return a cleanup function that is called automatically.
