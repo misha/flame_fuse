@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.3
+
+* fix: Rename internal members of the various tap fuse mixins such that they may be composed successfully.
+
 ## 3.0.2
 
 * new: Implement `fuseSecondaryTapDown`, `fuseSecondaryTapUp`, and `fuseSecondaryTapCancel`, available through the `FuseSecondaryTaps` mixin.

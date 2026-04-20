@@ -94,16 +94,16 @@ typedef FuseDoubleTapCancelFn = Function(DoubleTapCancelEvent event);
 
 /// Mixin that enables the usage of `fuseDoubleTap*` fuses.
 mixin FuseDoubleTaps on Fuse, DoubleTapCallbacks {
-  final _tapDownFns = <FuseDoubleTapDownFn>[];
-  final _tapUpFns = <FuseDoubleTapUpFn>[];
-  final _tapCancelFns = <FuseDoubleTapCancelFn>[];
+  final _doubleTapDownFns = <FuseDoubleTapDownFn>[];
+  final _doubleTapUpFns = <FuseDoubleTapUpFn>[];
+  final _doubleTapCancelFns = <FuseDoubleTapCancelFn>[];
 
   @override
   @mustCallSuper
   void onDoubleTapDown(DoubleTapDownEvent event) {
     super.onDoubleTapDown(event);
 
-    for (final fn in _tapDownFns) {
+    for (final fn in _doubleTapDownFns) {
       fn(event);
     }
   }
@@ -113,7 +113,7 @@ mixin FuseDoubleTaps on Fuse, DoubleTapCallbacks {
   void onDoubleTapUp(DoubleTapEvent event) {
     super.onDoubleTapUp(event);
 
-    for (final fn in _tapUpFns) {
+    for (final fn in _doubleTapUpFns) {
       fn(event);
     }
   }
@@ -123,7 +123,7 @@ mixin FuseDoubleTaps on Fuse, DoubleTapCallbacks {
   void onDoubleTapCancel(DoubleTapCancelEvent event) {
     super.onDoubleTapCancel(event);
 
-    for (final fn in _tapCancelFns) {
+    for (final fn in _doubleTapCancelFns) {
       fn(event);
     }
   }
@@ -132,19 +132,19 @@ mixin FuseDoubleTaps on Fuse, DoubleTapCallbacks {
 /// Calls [fn] when a double-tap down event occurs.
 void fuseDoubleTapDown(FuseDoubleTapDownFn fn) {
   final component = fuseComponent<FuseDoubleTaps>();
-  component._tapDownFns.add(fn);
+  component._doubleTapDownFns.add(fn);
 }
 
 /// Calls [fn] when a double-tap (up) event occurs.
 void fuseDoubleTapUp(FuseDoubleTapUpFn fn) {
   final component = fuseComponent<FuseDoubleTaps>();
-  component._tapUpFns.add(fn);
+  component._doubleTapUpFns.add(fn);
 }
 
 /// Calls [fn] when a double-tap cancel event occurs.
 void fuseDoubleTapCancel(FuseDoubleTapCancelFn fn) {
   final component = fuseComponent<FuseDoubleTaps>();
-  component._tapCancelFns.add(fn);
+  component._doubleTapCancelFns.add(fn);
 }
 
 //
@@ -157,16 +157,16 @@ typedef FuseSecondaryTapCancelFn = Function(SecondaryTapCancelEvent event);
 
 /// Mixin that enables the usage of `fuseSecondaryTap*` fuses.
 mixin FuseSecondaryTaps on Fuse, SecondaryTapCallbacks {
-  final _tapDownFns = <FuseSecondaryTapDownFn>[];
-  final _tapUpFns = <FuseSecondaryTapUpFn>[];
-  final _tapCancelFns = <FuseSecondaryTapCancelFn>[];
+  final _secondaryTapDownFns = <FuseSecondaryTapDownFn>[];
+  final _secondaryTapUpFns = <FuseSecondaryTapUpFn>[];
+  final _secondaryTapCancelFns = <FuseSecondaryTapCancelFn>[];
 
   @override
   @mustCallSuper
   void onSecondaryTapDown(SecondaryTapDownEvent event) {
     super.onSecondaryTapDown(event);
 
-    for (final fn in _tapDownFns) {
+    for (final fn in _secondaryTapDownFns) {
       fn(event);
     }
   }
@@ -176,7 +176,7 @@ mixin FuseSecondaryTaps on Fuse, SecondaryTapCallbacks {
   void onSecondaryTapUp(SecondaryTapUpEvent event) {
     super.onSecondaryTapUp(event);
 
-    for (final fn in _tapUpFns) {
+    for (final fn in _secondaryTapUpFns) {
       fn(event);
     }
   }
@@ -186,7 +186,7 @@ mixin FuseSecondaryTaps on Fuse, SecondaryTapCallbacks {
   void onSecondaryTapCancel(SecondaryTapCancelEvent event) {
     super.onSecondaryTapCancel(event);
 
-    for (final fn in _tapCancelFns) {
+    for (final fn in _secondaryTapCancelFns) {
       fn(event);
     }
   }
@@ -195,17 +195,17 @@ mixin FuseSecondaryTaps on Fuse, SecondaryTapCallbacks {
 /// Calls [fn] when a secondary tap down event occurs.
 void fuseSecondaryTapDown(FuseSecondaryTapDownFn fn) {
   final component = fuseComponent<FuseSecondaryTaps>();
-  component._tapDownFns.add(fn);
+  component._secondaryTapDownFns.add(fn);
 }
 
 /// Calls [fn] when a secondary tap up event occurs.
 void fuseSecondaryTapUp(FuseSecondaryTapUpFn fn) {
   final component = fuseComponent<FuseSecondaryTaps>();
-  component._tapUpFns.add(fn);
+  component._secondaryTapUpFns.add(fn);
 }
 
 /// Calls [fn] when a secondary tap cancel event occurs.
 void fuseSecondaryTapCancel(FuseSecondaryTapCancelFn fn) {
   final component = fuseComponent<FuseSecondaryTaps>();
-  component._tapCancelFns.add(fn);
+  component._secondaryTapCancelFns.add(fn);
 }
