@@ -37,16 +37,17 @@ Any Flame component may use the `Fuse` mixin to gain access to this special meth
 
 Additional `fuse*` functions become available if you also apply feature-specific mixins. Here is the master list of available fuses:
 
-| Mixin            | Fuses                                                                                                                                | Description                   |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
-| `Fuse`           | `fuseComponent`, `fuseGame`, `fuseCamera`, `fuseUpdate`, `fuseRemove`, `fuseResize`                                                  | Core fuses.                   |
-| `FuseCollisions` | `fuseCollision`, `fuseCollisionPoints`, `fuseCollisionStart`, `fuseCollisionEnd`, `fuseCollisionEffect`, `fuseCollisionEffectPoints` | Fuses related to collisions.  |
-| `FuseDrags`      | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`, `fuseDragEffect`                                                 | Fuses related to dragging.    |
-| `FuseHovers`     | `fuseHoverEnter`, `fuseHoverExit`, `fuseHoverUpdate`                                                                                 | Fuses related to hovers.      |
-| `FuseKeys`       | `fuseKeyEvent`                                                                                                                       | Fuses related to keys.        |
-| `FusePointers`   | `fusePointerMove`, `fusePointerMoveStop`                                                                                             | Fuses related to pointers.    |
-| `FuseTaps`       | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                                                       | Fuses related to taps.        |
-| `FuseDoubleTaps` | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                                                        | Fuses related to double taps. |
+| Mixin               | Fuses                                                                                                                                | Description                      |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| `Fuse`              | `fuseComponent`, `fuseGame`, `fuseCamera`, `fuseUpdate`, `fuseRemove`, `fuseResize`                                                  | Core fuses.                      |
+| `FuseCollisions`    | `fuseCollision`, `fuseCollisionPoints`, `fuseCollisionStart`, `fuseCollisionEnd`, `fuseCollisionEffect`, `fuseCollisionEffectPoints` | Fuses related to collisions.     |
+| `FuseDrags`         | `fuseDragStart`, `fuseDragUpdate`, `fuseDragEnd`, `fuseDragCancel`, `fuseDragEffect`                                                 | Fuses related to dragging.       |
+| `FuseHovers`        | `fuseHoverEnter`, `fuseHoverExit`, `fuseHoverUpdate`                                                                                 | Fuses related to hovers.         |
+| `FuseKeys`          | `fuseKeyEvent`                                                                                                                       | Fuses related to keys.           |
+| `FusePointers`      | `fusePointerMove`, `fusePointerMoveStop`                                                                                             | Fuses related to pointers.       |
+| `FuseTaps`          | `fuseTapDown`, `fuseTapUp`, `fuseTapCancel`, `fuseLongTapDown`                                                                       | Fuses related to taps.           |
+| `FuseDoubleTaps`    | `fuseDoubleTapDown`, `fuseDoubleTapUp`, `fuseDoubleTapCancel`                                                                        | Fuses related to double taps.    |
+| `FuseSecondaryTaps` | `fuseSecondaryTapDown`, `fuseSecondaryTapUp`, `fuseSecondaryTapCancel`                                                               | Fuses related to secondary taps. |
 
 Most games will implement their own fuses as compositions of these core fuses.
 

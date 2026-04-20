@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.2
+
+* new: Implement `fuseSecondaryTapDown`, `fuseSecondaryTapUp`, and `fuseSecondaryTapCancel`, available through the `FuseSecondaryTaps` mixin.
+* fix: Tap fuses now correctly call `super`. The `super` call is empty right now, but this allows it to support future Flame versions that do have some default behavior.
+
 ## 3.0.1
 
 * new: Loosened the constraints on `fuseGame` to allow for non-`FlameGame` access, e.g. a `Forge2DGame`. As a result, `fuseCamera` and `fuseWorld` now both require a `FlameGame` internally.

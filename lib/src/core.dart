@@ -10,7 +10,6 @@ import 'package:flame_fuse/src/hover.dart';
 import 'package:flame_fuse/src/keys.dart';
 import 'package:flame_fuse/src/pointers.dart';
 import 'package:flame_fuse/src/taps.dart';
-import 'package:flame_fuse/src/taps2.dart';
 
 typedef FuseUpdateFn = Function(double dt);
 typedef FuseMountFn = Function();
@@ -41,6 +40,7 @@ typedef FuseParentResizeFn = Function(Vector2 maxSize);
 ///   - [FusePointers]
 ///   - [FuseTaps]
 ///   - [FuseDoubleTaps]
+///   - [FuseSecondaryTaps]
 mixin Fuse on Component {
   final _mountFns = <FuseMountFn>[];
   final _updateFns = <FuseUpdateFn>[];
