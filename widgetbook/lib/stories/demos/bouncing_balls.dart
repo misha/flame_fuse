@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/collisions.dart';
@@ -7,6 +6,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_fuse/flame_fuse.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
 import 'package:flame_fuse_widgetbook/widgets/demo_frame.dart';
@@ -24,9 +24,16 @@ Widget buildBouncingBallsDemo(_) {
 final _NORMAL_HORIZONTAL = Vector2(0, 1);
 final _NORMAL_VERTICAL = Vector2(1, 0);
 
-class BouncingBallsGame extends FlameGame with HasCollisionDetection, Fuse, TapCallbacks, FuseTaps {
+class BouncingBallsGame extends FlameGame
+    with //
+        HasCollisionDetection,
+        Fuse,
+        TapCallbacks,
+        FuseTaps,
+        KeyboardEvents,
+        FuseGameKeys {
   @override
-  FutureOr<void> fuse() {
+  void fuse() {
     world.addAll([
       Wall(_NORMAL_HORIZONTAL) //
         ..position = Vector2(-250, -250)
@@ -51,6 +58,12 @@ class BouncingBallsGame extends FlameGame with HasCollisionDetection, Fuse, TapC
     fuseTapDown((_) {
       spawn();
     });
+
+    fuseGameKeyEvent((event, keys) {
+      if (keys.contains(LogicalKeyboardKey.space)) {
+        spawn();
+      }
+    });
   }
 }
 
@@ -60,7 +73,7 @@ class Wall extends RectangleComponent with Fuse {
   final Vector2 normal;
 
   @override
-  FutureOr<void> fuse() {
+  void fuse() {
     add(RectangleHitbox(collisionType: .passive));
   }
 }
@@ -69,7 +82,7 @@ final _RANDOM = Random();
 
 class Ball extends CircleComponent with Fuse, CollisionCallbacks, FuseCollisions {
   @override
-  FutureOr<void> fuse() {
+  void fuse() {
     anchor = Anchor.center;
     size = Vector2.all(33);
     add(CircleHitbox());

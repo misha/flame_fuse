@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -21,9 +20,8 @@ Widget buildSpinningSquareDemo(_) {
 
 class SpinningSquareGame extends FlameGame with Fuse {
   @override
-  FutureOr<void> fuse() {
-    final square = SpinningSquare();
-    world.add(square);
+  void fuse() {
+    world.add(SpinningSquare());
   }
 }
 
@@ -35,7 +33,7 @@ class SpinningSquare extends RectangleComponent with Fuse {
       );
 
   @override
-  FutureOr<void> fuse() {
+  void fuse() {
     paint.color = Colors.green;
 
     fuseUpdate((dt) {
